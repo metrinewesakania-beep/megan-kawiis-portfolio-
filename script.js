@@ -1,204 +1,130 @@
 
-/* =====================================================
-   MEGAN KAWIIS CREATIVE LAB
-   File: script.js
-   ===================================================== */
-
 "use strict";
 
-document.addEventListener("DOMContentLoaded", () => {
-  // 1. AUTOMATIC COPYRIGHT YEAR
-  const yearElement = document.getElementById("current-year");
+/* Current copyright year */
+const yearElement = document.getElementById("year");
 
-  if (yearElement) {
-    yearElement.textContent = new Date().getFullYear();
+if (yearElement) {
+  yearElement.textContent = new Date().getFullYear();
+}
+
+/* Animated star field */
+(() => {
+  const canvas = document.getElementById("stars");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  let width = 0;
+  let height = 0;
+  let stars = [];
+  let animationId = null;
+
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  function resize() {
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+
+    width = window.innerWidth;
+    height = window.innerHeight;
+
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+    const count = Math.min(110, Math.floor(width / 5));
+
+    stars = Array.from({ length: count }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      radius: Math.random() * 1.3 + 0.3,
+      speed: Math.random() * 0.18 + 0.035,
+      opacity: Math.random() * 0.65 + 0.2
+    }));
+
+    if (reducedMotion) drawStatic();
   }
 
-  // 2. MOBILE NAVIGATION MENU
-  const menuToggle = document.getElementById("menu-toggle");
-  const navigation = document.getElementById("site-navigation");
+  function drawStatic() {
+    ctx.clearRect(0, 0, width, height);
 
-  if (menuToggle && navigation) {
-    const closeMenu = () => {
-      navigation.classList.remove("open");
-      menuToggle.setAttribute("aria-expanded", "false");
-      menuToggle.setAttribute("aria-label", "Open navigation");
-      menuToggle.textContent = "☰";
-    };
+    for (const star of stars) {
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(190,220,255,${star.opacity})`;
+      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
 
-    menuToggle.addEventListener("click", () => {
-      const isOpen = navigation.classList.toggle("open");
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
 
-      menuToggle.setAttribute("aria-expanded", String(isOpen));
-      menuToggle.setAttribute(
-        "aria-label",
-        isOpen ? "Close navigation" : "Open navigation"
-      );
-      menuToggle.textContent = isOpen ? "✕" : "☰";
-    });
+    for (const star of stars) {
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(190,220,255,${star.opacity})`;
+      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      ctx.fill();
 
-    navigation.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", closeMenu);
-    });
+      star.y -= star.speed;
 
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        closeMenu();
+      if (star.y < 0) {
+        star.y = height;
+        star.x = Math.random() * width;
       }
-    });
+    }
 
-    document.addEventListener("click", (event) => {
-      if (
-        navigation.classList.contains("open") &&
-        !navigation.contains(event.target) &&
-        !menuToggle.contains(event.target)
-      ) {
-        closeMenu();
+    animationId = requestAnimationFrame(animate);
+  }
+
+  resize();
+
+  if (!reducedMotion) animate();
+
+  window.addEventListener("resize", () => {
+    if (animationId) cancelAnimationFrame(animationId);
+    resize();
+    if (!reducedMotion) animate();
+  }, { passive: true });
+})();
+
+/* Reveal cards as they enter the screen */
+const revealItems = document.querySelectorAll(".reveal");
+
+if ("IntersectionObserver" in window) {
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
       }
-    });
-  }
+    }
+  }, { threshold: 0.08 });
 
-  // 3. PROJECT CATEGORY FILTERS
-  const filterButtons = document.querySelectorAll(".filter-btn");
-  const projectCards = document.querySelectorAll(".project-card");
+  revealItems.forEach(item => revealObserver.observe(item));
+} else {
+  revealItems.forEach(item => item.classList.add("visible"));
+}
 
-  filterButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const selectedFilter = button.dataset.filter;
+/* Smooth in-page navigation */
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener("click", event => {
+    const targetId = link.getAttribute("href");
+    const target = targetId && document.querySelector(targetId);
 
-      filterButtons.forEach((item) => {
-        const isActive = item === button;
-
-        item.classList.toggle("active", isActive);
-        item.setAttribute("aria-pressed", String(isActive));
-      });
-
-      projectCards.forEach((card) => {
-        const category = card.dataset.category;
-        const shouldShow =
-          selectedFilter === "all" || category === selectedFilter;
-
-        card.hidden = !shouldShow;
-      });
-    });
-  });
-
-  // 4. SCROLL REVEAL ANIMATIONS
-  const revealElements = document.querySelectorAll(".reveal");
-
-  if ("IntersectionObserver" in window) {
-    const revealObserver = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.08,
-        rootMargin: "0px 0px -25px 0px"
-      }
-    );
-
-    revealElements.forEach((element) => {
-      revealObserver.observe(element);
-    });
-  } else {
-    revealElements.forEach((element) => {
-      element.classList.add("is-visible");
-    });
-  }
-
-  // 5. BACK-TO-TOP BUTTON
-  const backToTop = document.querySelector(".back-to-top");
-
-  if (backToTop) {
-    const updateBackToTop = () => {
-      backToTop.classList.toggle("visible", window.scrollY > 500);
-    };
-
-    window.addEventListener("scroll", updateBackToTop, {
-      passive: true
-    });
-
-    updateBackToTop();
-  }
-
-  // 6. CONTACT FORM
-  const contactForm = document.getElementById("contact-form");
-  const formNote = document.getElementById("form-note");
-
-  const contactEmail = "metrinewesakania@gmail.com";
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", (event) => {
+    if (target) {
       event.preventDefault();
-
-      if (!contactForm.reportValidity()) {
-        return;
-      }
-
-      const name = document
-        .getElementById("visitor-name")
-        .value.trim();
-
-      const email = document
-        .getElementById("visitor-email")
-        .value.trim();
-
-      const message = document
-        .getElementById("visitor-message")
-        .value.trim();
-
-      if (!name || !email || !message) {
-        if (formNote) {
-          formNote.textContent =
-            "Please complete all fields before continuing.";
-        }
-        return;
-      }
-
-      const subject = `Portfolio enquiry from ${name}`;
-
-      const body = [
-        `Hello Megan Kawiis Creative Lab,`,
-        ``,
-        message,
-        ``,
-        `From: ${name}`,
-        `Reply to: ${email}`
-      ].join("\n");
-
-      const mailtoLink =
-        `mailto:${contactEmail}` +
-        `?subject=${encodeURIComponent(subject)}` +
-        `&body=${encodeURIComponent(body)}`;
-
-      if (formNote) {
-        formNote.textContent =
-          "Opening your email app. Review and send your message there.";
-      }
-
-      window.location.href = mailtoLink;
-    });
-  }
-
-  // 7. FRIENDLY IMAGE FALLBACK
-  document.querySelectorAll("img").forEach((image) => {
-    image.addEventListener("error", () => {
-      image.style.backgroundColor = "#1c1230";
-      image.style.color = "#c084fc";
-    });
+      target.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+        block: "start"
+      });
+    }
   });
-
-  // 8. PREVENT ACCIDENTAL EMPTY PROJECT LINKS
-  document.querySelectorAll('a[href="#"]').forEach((link) => {
-    link.addEventListener("click", (event) => {
-      event.preventDefault();
-    });
-  });
-
-  console.log("Megan Kawiis Creative Lab is ready ✨");
 });
