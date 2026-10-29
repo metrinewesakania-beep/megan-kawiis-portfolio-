@@ -2,768 +2,655 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#070514">
-  <meta name="description" content="Megan Kawiis Creative Lab — a futuristic creative studio building immersive websites, artificial intelligence experiments, games, and original universes.">
-  <meta name="keywords" content="Megan Kawiis, creative studio, web development, AI, Three.js games, Solaris Aerion Verse">
-  <meta property="og:title" content="Megan Kawiis Creative Lab">
-  <meta property="og:description" content="Dream beyond reality. Build beyond limits. Enter the Lab.">
-  <meta property="og:type" content="website">
-  <title>MEGAN KAWIIS // CREATIVE LAB</title>
-
-  <style>
-    :root {
-      --bg: #070514;
-      --panel: rgba(17, 13, 43, .78);
-      --white: #f6f3ff;
-      --muted: #aaa8cb;
-      --purple: #a855f7;
-      --pink: #fa45f5;
-      --cyan: #48f4ff;
-      --line: rgba(134, 105, 255, .3);
-      --max: 1200px;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 85px;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--white);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
-        BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse at 10% 15%, #44147740, transparent 35%),
-        radial-gradient(ellipse at 90% 35%, #005c7d25, transparent 35%),
-        radial-gradient(ellipse at 50% 90%, #4b168b35, transparent 45%),
-        #070514;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    button, a { -webkit-tap-highlight-color: transparent; }
-    button { font: inherit; }
-
-    .stars {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      opacity: .48;
-      background-image:
-        radial-gradient(1px 1px at 20px 30px, white 99%, transparent),
-        radial-gradient(2px 2px at 140px 170px, #a7faff 99%, transparent),
-        radial-gradient(1px 1px at 270px 90px, white 99%, transparent),
-        radial-gradient(1px 1px at 350px 250px, #d8a5ff 99%, transparent);
-      background-size: 390px 310px;
-      animation: starsDrift 70s linear infinite;
-    }
-
-    @keyframes starsDrift {
-      from { transform: translateY(0); }
-      to { transform: translateY(-310px); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: .65; }
-      50% { opacity: 1; }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
-    }
-
-    @keyframes scan {
-      from { transform: translateY(-100%); }
-      to { transform: translateY(500%); }
-    }
-
-    .container {
-      width: min(var(--max), calc(100% - 40px));
-      margin-inline: auto;
-    }
-
-    .topline {
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--pink),
-        var(--cyan), var(--purple), transparent);
-      box-shadow: 0 0 20px var(--purple);
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: rgba(7, 5, 20, .85);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .nav {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: .87rem;
-      font-weight: 900;
-      letter-spacing: .12em;
-    }
-
-    .brand-symbol {
-      width: 40px;
-      height: 40px;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--cyan);
-      color: var(--cyan);
-      transform: rotate(45deg);
-      box-shadow: 0 0 20px #48f4ff25;
-    }
-
-    .brand-symbol span { transform: rotate(-45deg); }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      color: var(--muted);
-      font-size: .84rem;
-    }
-
-    .nav-links a:hover { color: var(--cyan); }
-
-    .nav-cta, .button {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 9px;
-      padding: 13px 19px;
-      border: 1px solid var(--cyan);
-      background: #48f4ff0d;
-      color: var(--white);
-      font-weight: 800;
-      font-size: .8rem;
-      letter-spacing: .07em;
-      transition: .25s ease;
-      cursor: pointer;
-    }
-
-    .nav-cta:hover, .button:hover {
-      background: var(--cyan);
-      color: #08051a;
-      box-shadow: 0 0 30px #48f4ff45;
-      transform: translateY(-2px);
-    }
-
-    .button.primary {
-      color: #090518;
-      background: linear-gradient(110deg, var(--cyan), #bba0ff);
-      border-color: transparent;
-    }
-
-    .button.pink {
-      border-color: var(--pink);
-      background: #fa45f50b;
-    }
-
-    .button.pink:hover {
-      color: white;
-      background: #b51cb9;
-    }
-
-    .eyebrow {
-      color: var(--cyan);
-      text-transform: uppercase;
-      font-size: .72rem;
-      font-weight: 900;
-      letter-spacing: .22em;
-    }
-
-    .hero {
-      position: relative;
-      min-height: 650px;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      border-bottom: 1px solid var(--line);
-      isolation: isolate;
-    }
-
-    .hero-art {
-      position: absolute;
-      inset: 0;
-      z-index: -2;
-      background-image:
-        linear-gradient(90deg, rgba(7,5,20,.96) 0%,
-          rgba(7,5,20,.75) 45%, rgba(7,5,20,.25) 100%),
-        url("assets/creative-lab-hero.svg");
-      background-size: cover;
-      background-position: center;
-      opacity: .9;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      background: linear-gradient(0deg, var(--bg), transparent 22%,
-        transparent 80%, var(--bg));
-    }
-
-    .hero-content {
-      padding-block: 95px;
-      max-width: 760px;
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 13px;
-      border: 1px solid var(--line);
-      background: #100d28b8;
-      color: #d7d2f7;
-      font-size: .72rem;
-      letter-spacing: .08em;
-      margin-bottom: 28px;
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--cyan);
-      box-shadow: 0 0 12px var(--cyan);
-      animation: pulse 2s infinite;
-    }
-
-    h1 {
-      font-size: clamp(3rem, 9vw, 7.1rem);
-      line-height: .96;
-      letter-spacing: -.075em;
-      font-weight: 950;
-      margin: 20px 0 25px;
-    }
-
-    .gradient-text {
-      color: transparent;
-      background: linear-gradient(100deg, #fff 5%, var(--cyan) 36%,
-        #b7a0ff 64%, var(--pink) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-    }
-
-    .hero-description {
-      max-width: 590px;
-      color: #c5c1e1;
-      font-size: clamp(1rem, 2vw, 1.18rem);
-      margin-bottom: 30px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      max-width: 590px;
-      margin-top: 55px;
-      border-top: 1px solid var(--line);
-      padding-top: 22px;
-      gap: 20px;
-    }
-
-    .metric strong {
-      display: block;
-      font-size: 1.1rem;
-      color: white;
-    }
-
-    .metric span {
-      color: var(--muted);
-      font-size: .75rem;
-    }
-
-    section { padding: 100px 0; }
-
-    .section-heading {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 25px;
-      margin-bottom: 38px;
-    }
-
-    .section-heading h2 {
-      font-size: clamp(2rem, 5vw, 3.6rem);
-      line-height: 1.05;
-      letter-spacing: -.055em;
-      margin-top: 12px;
-    }
-
-    .section-heading p {
-      color: var(--muted);
-      max-width: 390px;
-      font-size: .93rem;
-    }
-
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 22px;
-    }
-
-    .project {
-      position: relative;
-      overflow: hidden;
-      min-height: 360px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 26px;
-      border: 1px solid var(--line);
-      background:
-        radial-gradient(ellipse at 85% 10%, var(--project-glow), transparent 55%),
-        linear-gradient(145deg, #171333, #090718 75%);
-      transition: transform .3s, border-color .3s, box-shadow .3s;
-      isolation: isolate;
-    }
-
-    .project:hover {
-      transform: translateY(-7px);
-      border-color: var(--cyan);
-      box-shadow: 0 15px 50px #48f4ff10;
-    }
-
-    .project::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      opacity: .2;
-      background-image:
-        linear-gradient(120deg, transparent 40%, var(--project-glow), transparent 65%);
-      transition: opacity .3s;
-    }
-
-    .project:hover::before { opacity: .45; }
-
-    .project-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .project-number {
-      color: var(--cyan);
-      font-size: .75rem;
-      letter-spacing: .16em;
-    }
-
-    .project-tag {
-      border: 1px solid var(--line);
-      padding: 5px 9px;
-      color: #d4cfff;
-      font-size: .67rem;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
-
-    .project-art {
-      min-height: 145px;
-      display: grid;
-      place-items: center;
-      position: relative;
-    }
-
-    .orbit {
-      position: relative;
-      display: grid;
-      place-items: center;
-      width: 120px;
-      height: 120px;
-      border: 1px solid var(--project-glow);
-      border-radius: 50%;
-      box-shadow: 0 0 35px color-mix(in srgb, var(--project-glow) 20%, transparent),
-        inset 0 0 30px color-mix(in srgb, var(--project-glow) 15%, transparent);
-      animation: float 5s ease-in-out infinite;
-    }
-
-    .orbit::before, .orbit::after {
-      content: "";
-      position: absolute;
-      width: 155px;
-      height: 50px;
-      border: 1px solid var(--project-glow);
-      border-radius: 50%;
-      transform: rotate(-30deg);
-    }
-
-    .orbit::after {
-      transform: rotate(55deg);
-      opacity: .55;
-    }
-
-    .orbit-symbol {
-      font-size: 2.8rem;
-      color: var(--project-glow);
-      text-shadow: 0 0 22px var(--project-glow);
-      font-weight: 900;
-    }
-
-    .project h3 {
-      font-size: clamp(1.4rem, 3vw, 2rem);
-      line-height: 1.1;
-      margin-bottom: 10px;
-      letter-spacing: -.04em;
-    }
-
-    .project p {
-      color: var(--muted);
-      font-size: .89rem;
-      margin-bottom: 19px;
-      max-width: 480px;
-    }
-
-    .project-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--cyan);
-      font-size: .79rem;
-      font-weight: 900;
-      letter-spacing: .07em;
-    }
-
-    .project-link:hover { color: white; }
-
-    .solaris { --project-glow: #ffb454; }
-    .ai { --project-glow: #c17bff; }
-    .game { --project-glow: #48f4ff; }
-    .dawn { --project-glow: #ff5b9e; }
-
-    .manifesto {
-      border-block: 1px solid var(--line);
-      background: linear-gradient(120deg, #160e35aa, #07172299);
-    }
-
-    .manifesto-inner {
-      display: grid;
-      grid-template-columns: .8fr 1.2fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .manifesto-symbol {
-      min-height: 280px;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--line);
-      background: radial-gradient(circle, #6728a844, transparent 60%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .manifesto-symbol::before {
-      content: "";
-      width: 170px;
-      height: 170px;
-      border: 2px solid var(--cyan);
-      transform: rotate(45deg);
-      box-shadow: 0 0 50px #48f4ff24, inset 0 0 50px #48f4ff14;
-    }
-
-    .manifesto-symbol::after {
-      content: "MK";
-      position: absolute;
-      font-size: 3.2rem;
-      font-weight: 950;
-      letter-spacing: -.1em;
-      color: white;
-      text-shadow: 0 0 25px var(--cyan);
-    }
-
-    .manifesto h2 {
-      font-size: clamp(2.1rem, 5vw, 4rem);
-      letter-spacing: -.06em;
-      line-height: 1.05;
-      margin: 15px 0 22px;
-    }
-
-    .manifesto p {
-      color: var(--muted);
-      margin-bottom: 18px;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 15px;
-    }
-
-    .service {
-      padding: 23px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      min-height: 165px;
-      transition: .25s;
-    }
-
-    .service:hover {
-      border-color: var(--pink);
-      transform: translateY(-4px);
-    }
-
-    .service-icon {
-      color: var(--cyan);
-      font-size: 1.4rem;
-      margin-bottom: 18px;
-    }
-
-    .service h3 { font-size: 1rem; margin-bottom: 8px; }
-    .service p { color: var(--muted); font-size: .82rem; }
-
-    .contact-box {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      padding: clamp(28px, 7vw, 75px);
-      background:
-        radial-gradient(ellipse at 90% 0%, #7020a744, transparent 50%),
-        linear-gradient(130deg, #15102e, #080719);
-    }
-
-    .contact-box h2 {
-      font-size: clamp(2.2rem, 6vw, 4.5rem);
-      line-height: 1;
-      letter-spacing: -.065em;
-      margin: 15px 0 20px;
-      max-width: 760px;
-    }
-
-    .contact-box p {
-      color: var(--muted);
-      max-width: 560px;
-      margin-bottom: 27px;
-    }
-
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 30px 0;
-    }
-
-    .footer-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      color: var(--muted);
-      font-size: .78rem;
-    }
-
-    .footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
-    .footer-links a:hover { color: var(--cyan); }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity .65s ease, transform .65s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .back-top {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 10;
-      width: 44px;
-      height: 44px;
-      border: 1px solid var(--cyan);
-      color: var(--cyan);
-      background: #09071beF;
-      cursor: pointer;
-      font-size: 1.2rem;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-      }
-    }
-
-    @media (max-width: 800px) {
-      .nav { min-height: 68px; }
-      .nav-links { gap: 13px; font-size: .76rem; }
-      .nav-cta { display: none; }
-      .hero { min-height: 610px; }
-      .hero-art {
-        background-image:
-          linear-gradient(90deg, rgba(7,5,20,.91), rgba(7,5,20,.57)),
-          url("assets/creative-lab-hero.svg");
-        background-position: 58% center;
-      }
-      .manifesto-inner { grid-template-columns: 1fr; gap: 30px; }
-      .manifesto-symbol { min-height: 210px; }
-      .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 560px) {
-      .container { width: calc(100% - 30px); }
-      .brand { font-size: .69rem; gap: 9px; letter-spacing: .07em; }
-      .brand-symbol { width: 32px; height: 32px; }
-      .nav-links { gap: 12px; font-size: .72rem; }
-      .nav-links a:nth-child(2) { display: none; }
-      .hero { min-height: 620px; }
-      .hero-content { padding-block: 75px; }
-      h1 { font-size: clamp(3rem, 15vw, 5rem); }
-      .hero-description { font-size: .97rem; }
-      .hero-actions { flex-direction: column; align-items: stretch; }
-      .button { width: 100%; }
-      .metrics { gap: 9px; margin-top: 40px; }
-      .metric strong { font-size: .95rem; }
-      .metric span { font-size: .66rem; }
-      section { padding: 72px 0; }
-      .section-heading { align-items: start; flex-direction: column; }
-      .project-grid { grid-template-columns: 1fr; }
-      .project { min-height: 340px; padding: 22px; }
-      .services-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-      .service { padding: 16px; min-height: 155px; }
-      .service h3 { font-size: .88rem; }
-      .service p { font-size: .77rem; }
-      .footer-inner { align-items: flex-start; flex-direction: column; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070610">
+<meta name="description" content="Megan Kawiis Creative Lab — futuristic websites, AI experiments, games, and original story universes.">
+<title>MEGAN KAWIIS — CREATIVE LAB</title>
+
+<style>
+:root{
+  --bg:#070610;
+  --panel:#100e20;
+  --white:#f7f4ff;
+  --muted:#aaa6c4;
+  --cyan:#63f6ff;
+  --purple:#a78bfa;
+  --pink:#ff60dd;
+  --line:rgba(174,151,255,.24);
+  --max:1220px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:75px}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  line-height:1.65;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+::selection{background:var(--cyan);color:#080714}
+.wrap{width:min(var(--max),calc(100% - 40px));margin:auto}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-2;
+  background:
+    radial-gradient(ellipse at 10% 10%,#48208035,transparent 40%),
+    radial-gradient(ellipse at 90% 35%,#005b8230,transparent 38%),
+    #070610;
+}
+#stars{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.6;
+}
+.topline{
+  height:3px;
+  background:linear-gradient(90deg,transparent,var(--pink),var(--cyan),var(--purple),transparent);
+  box-shadow:0 0 18px #9c6cff;
+}
+
+/* NAVIGATION */
+header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:#070610df;
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+nav{
+  min-height:72px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:.78rem;
+  line-height:1.35;
+  letter-spacing:.12em;
+  font-weight:900;
+}
+.brand-mark{
+  display:grid;
+  place-items:center;
+  width:39px;
+  height:39px;
+  border:1px solid var(--cyan);
+  color:var(--cyan);
+  transform:rotate(45deg);
+  box-shadow:0 0 20px #63f6ff18;
+}
+.brand-mark span{transform:rotate(-45deg)}
+.nav-links{display:flex;gap:25px;color:var(--muted);font-size:.85rem}
+.nav-links a:hover{color:var(--cyan)}
+
+/* HERO */
+.hero{
+  min-height:650px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  border-bottom:1px solid var(--line);
+  isolation:isolate;
+}
+.hero-art{
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  background:
+    linear-gradient(90deg,#070610f5 0%,#070610d9 43%,#07061040 100%),
+    url("assets/creative-lab-hero.svg") center/cover no-repeat;
+  opacity:.95;
+}
+.hero:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:linear-gradient(0deg,var(--bg),transparent 18%,transparent 85%,var(--bg));
+}
+.hero-content{padding:90px 0;max-width:800px}
+.eyebrow{
+  color:var(--cyan);
+  text-transform:uppercase;
+  letter-spacing:.2em;
+  font-size:.72rem;
+  font-weight:850;
+}
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid var(--line);
+  background:#100e20b8;
+  padding:7px 12px;
+  font-size:.68rem;
+  letter-spacing:.1em;
+  margin-bottom:28px;
+}
+.status-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 12px var(--cyan);
+  animation:pulse 2s infinite;
+}
+h1{
+  font-size:clamp(3.4rem,10vw,8rem);
+  line-height:.91;
+  letter-spacing:-.08em;
+  font-weight:950;
+  margin:22px 0 26px;
+}
+.gradient{
+  background:linear-gradient(100deg,#fff,var(--cyan) 40%,#b7a0ff 70%,var(--pink));
+  color:transparent;
+  -webkit-background-clip:text;
+  background-clip:text;
+}
+.hero-copy{max-width:570px;color:#d0cce3;font-size:1.05rem}
+.hero-foot{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-top:32px;
+  color:var(--muted);
+  font-size:.76rem;
+  letter-spacing:.12em;
+}
+.hero-foot:before{
+  content:"";
+  width:44px;height:1px;background:var(--cyan);
+  box-shadow:0 0 12px var(--cyan);
+}
+
+/* PROJECTS */
+section{padding:90px 0}
+.section-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:24px;
+  margin-bottom:35px;
+}
+.section-top h2{
+  margin-top:12px;
+  font-size:clamp(2.4rem,6vw,4.5rem);
+  line-height:1;
+  letter-spacing:-.065em;
+}
+.section-top p{max-width:350px;color:var(--muted);font-size:.9rem}
+.project-list{display:grid;gap:22px}
+.project{
+  --accent:var(--cyan);
+  position:relative;
+  min-height:300px;
+  display:grid;
+  grid-template-columns:250px minmax(0,1fr);
+  align-items:center;
+  gap:32px;
+  padding:30px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:linear-gradient(110deg,#111023,#0b0a17 70%);
+  isolation:isolate;
+  transition:border-color .25s,transform .25s;
+}
+.project:before{
+  content:"";
+  position:absolute;
+  width:350px;height:350px;
+  left:-100px;top:-130px;
+  border-radius:50%;
+  background:var(--accent);
+  filter:blur(100px);
+  opacity:.09;
+  z-index:-1;
+  pointer-events:none;
+}
+.project:hover{
+  border-color:var(--accent);
+  transform:translateY(-3px);
+}
+.project.solaris{--accent:#ffbf66}
+.project.ai{--accent:#c69aff}
+.project.game{--accent:#63f6ff}
+.project.dawn{--accent:#ff72b6}
+.project-visual{
+  min-height:210px;
+  display:grid;
+  place-items:center;
+  position:relative;
+  overflow:hidden;
+  border:1px solid color-mix(in srgb,var(--accent) 38%,transparent);
+  background:
+    radial-gradient(circle at center,color-mix(in srgb,var(--accent) 22%,transparent),transparent 63%),
+    #080713;
+}
+.project-visual:before{
+  content:"";
+  position:absolute;
+  width:170px;height:170px;
+  border:1px solid var(--accent);
+  border-radius:50%;
+  opacity:.6;
+  box-shadow:0 0 35px color-mix(in srgb,var(--accent) 20%,transparent),
+    inset 0 0 30px color-mix(in srgb,var(--accent) 12%,transparent);
+  animation:orbit 14s linear infinite;
+}
+.project-visual:after{
+  content:"";
+  position:absolute;
+  width:210px;height:70px;
+  border:1px solid var(--accent);
+  border-radius:50%;
+  transform:rotate(-30deg);
+  opacity:.65;
+}
+.glyph{
+  position:relative;
+  z-index:1;
+  color:var(--accent);
+  font-size:4rem;
+  font-weight:900;
+  text-shadow:0 0 24px var(--accent);
+}
+.project-info{min-width:0}
+.project-meta{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:12px;
+  color:var(--muted);
+  font-size:.7rem;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.project-meta span:last-child{color:var(--accent)}
+.project h3{
+  font-size:clamp(1.65rem,4vw,3rem);
+  line-height:1.1;
+  letter-spacing:-.055em;
+  margin-bottom:14px;
+}
+.project p{max-width:650px;color:var(--muted);font-size:.94rem}
+.project-link{
+  display:inline-flex;
+  gap:12px;
+  align-items:center;
+  margin-top:22px;
+  color:var(--accent);
+  font-size:.82rem;
+  font-weight:900;
+  letter-spacing:.09em;
+}
+.project-link span{transition:transform .2s}
+.project-link:hover span{transform:translate(5px,-3px)}
+
+/* VISION */
+.vision{
+  border-block:1px solid var(--line);
+  background:linear-gradient(120deg,#160e32a8,#0717227a);
+}
+.vision-grid{
+  display:grid;
+  grid-template-columns:.8fr 1.2fr;
+  gap:55px;
+  align-items:center;
+}
+.symbol-panel{
+  min-height:330px;
+  display:grid;
+  place-items:center;
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:radial-gradient(circle,#6728a83c,transparent 60%);
+}
+.symbol-panel:before{
+  content:"";
+  width:175px;height:175px;
+  border:2px solid var(--cyan);
+  transform:rotate(45deg);
+  box-shadow:0 0 45px #63f6ff1e,inset 0 0 40px #63f6ff15;
+}
+.symbol-panel:after{
+  content:"MK";
+  position:absolute;
+  font-size:3.5rem;
+  font-weight:950;
+  text-shadow:0 0 25px var(--cyan);
+}
+.vision h2{
+  font-size:clamp(2.4rem,6vw,4.5rem);
+  line-height:1;
+  letter-spacing:-.065em;
+  margin:15px 0 22px;
+}
+.vision p{color:var(--muted);margin-bottom:16px;max-width:610px}
+
+/* SERVICES */
+.services{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+.service{
+  padding:23px;
+  border:1px solid var(--line);
+  background:#100e20a6;
+  transition:border-color .2s,transform .2s;
+}
+.service:hover{border-color:var(--pink);transform:translateY(-3px)}
+.service-mark{font-size:1.35rem;color:var(--cyan);margin-bottom:15px}
+.service h3{font-size:1rem;margin-bottom:7px}
+.service p{font-size:.82rem;color:var(--muted)}
+
+/* CONTACT AND FOOTER */
+.contact-panel{
+  padding:clamp(28px,6vw,65px);
+  border:1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 100% 0%,#7123a53d,transparent 50%),
+    #100d20;
+}
+.contact-panel h2{
+  max-width:800px;
+  font-size:clamp(2.6rem,7vw,5.6rem);
+  line-height:.98;
+  letter-spacing:-.07em;
+  margin:15px 0 22px;
+}
+.contact-panel p{max-width:550px;color:var(--muted)}
+.contact-link{
+  display:inline-block;
+  margin-top:25px;
+  padding-bottom:5px;
+  color:var(--cyan);
+  border-bottom:1px solid var(--cyan);
+  font-weight:800;
+}
+footer{border-top:1px solid var(--line);padding:27px 0}
+.footer-inner{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:20px;
+  color:var(--muted);font-size:.78rem;
+}
+.footer-inner strong{color:var(--white);letter-spacing:.06em}
+.footer-links{display:flex;gap:18px}
+.footer-links a:hover{color:var(--cyan)}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .65s,transform .65s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@keyframes pulse{50%{opacity:.45}}
+@keyframes orbit{to{transform:rotate(360deg)}}
+
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+@media(max-width:760px){
+  .wrap{width:calc(100% - 30px)}
+  .hero{min-height:600px}
+  .hero-art{
+    background:
+      linear-gradient(90deg,#070610ed,#070610a8),
+      url("assets/creative-lab-hero.svg") 60% center/cover no-repeat;
+  }
+  .project{
+    grid-template-columns:1fr;
+    gap:20px;
+    padding:20px;
+  }
+  .project-visual{min-height:180px}
+  .vision-grid{grid-template-columns:1fr;gap:30px}
+  .symbol-panel{min-height:230px}
+  .services{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .section-top{align-items:start;flex-direction:column}
+}
+@media(max-width:450px){
+  .brand{font-size:.65rem;gap:9px}
+  .brand-mark{width:32px;height:32px}
+  .nav-links{gap:13px;font-size:.75rem}
+  .nav-links a:nth-child(2){display:none}
+  .hero-content{padding:75px 0}
+  h1{font-size:clamp(3.2rem,15vw,5rem)}
+  .hero-copy{font-size:.95rem}
+  section{padding:68px 0}
+  .project h3{font-size:1.7rem}
+  .services{gap:9px}
+  .service{padding:15px}
+  .footer-inner{align-items:flex-start;flex-direction:column}
+}
+</style>
 </head>
 
 <body>
-  <div class="stars" aria-hidden="true"></div>
-  <div class="topline"></div>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="topline"></div>
 
-  <header>
-    <nav class="container nav" aria-label="Main navigation">
-      <a class="brand" href="#home" aria-label="Megan Kawiis Creative Lab home">
-        <span class="brand-symbol"><span>MK</span></span>
-        <span>MEGAN KAWIIS<br>CREATIVE LAB</span>
-      </a>
+<header>
+  <nav class="wrap" aria-label="Main navigation">
+    <a class="brand" href="#home">
+      <span class="brand-mark"><span>MK</span></span>
+      <span>MEGAN KAWIIS<br>CREATIVE LAB</span>
+    </a>
+    <div class="nav-links">
+      <a href="#projects">Projects</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
 
-      <div class="nav-links">
-        <a href="#projects">Projects</a>
-        <a href="#vision">Vision</a>
-        <a href="#services">Services</a>
+<main>
+  <section class="hero" id="home">
+    <div class="hero-art" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="hero-content">
+        <div class="status"><span class="status-dot"></span> INDEPENDENT DIGITAL CREATION STUDIO</div>
+        <p class="eyebrow">Beyond ordinary. Beyond expected.</p>
+        <h1>ENTER THE<br><span class="gradient">UNKNOWN.</span></h1>
+        <p class="hero-copy">
+          Futuristic technology. Original universes. Interactive experiences.
+          A creative lab for ideas that deserve to become real.
+        </p>
+        <div class="hero-foot">SCROLL TO EXPLORE THE PROJECTS</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-top reveal">
+        <div>
+          <p class="eyebrow">Selected creations / 001—004</p>
+          <h2>THE PROJECT<br><span class="gradient">UNIVERSE.</span></h2>
+        </div>
+        <p>Four worlds. Different missions. One creator building beyond the ordinary.</p>
       </div>
 
-      <a class="nav-cta" href="#contact">CONNECT ↗</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero" id="home">
-      <div class="hero-art" aria-hidden="true"></div>
-      <div class="container">
-        <div class="hero-content">
-          <div class="status">
-            <span class="status-dot"></span>
-            INDEPENDENT DIGITAL CREATION STUDIO
+      <div class="project-list">
+        <article class="project solaris reveal">
+          <div class="project-visual" aria-hidden="true"><span class="glyph">☼</span></div>
+          <div class="project-info">
+            <div class="project-meta"><span>PROJECT / 001</span><span>Original universe</span></div>
+            <h3>SOLARIS: AERION VERSE</h3>
+            <p>A cosmic superhero universe featuring Solaris, extraordinary speed, immense power, and a destiny written among the stars.</p>
+            <a class="project-link" href="https://metrinewesakania-beep.github.io/solaris-aerion-verse/" target="_blank" rel="noopener noreferrer">ENTER SOLARIS <span>↗</span></a>
           </div>
+        </article>
 
-          <p class="eyebrow">Beyond ordinary. Beyond expected.</p>
-
-          <h1>
-            ENTER THE<br>
-            <span class="gradient-text">UNKNOWN.</span>
-          </h1>
-
-          <p class="hero-description">
-            A creative universe where futuristic technology, original
-            worlds, interactive experiences, and ambitious ideas come
-            together. Imagine it. Engineer it. Bring it to life.
-          </p>
-
-          <div class="hero-actions">
-            <a class="button primary" href="#projects">EXPLORE THE UNIVERSE ↗</a>
-            <a class="button pink" href="#vision">DISCOVER THE VISION</a>
+        <article class="project ai reveal">
+          <div class="project-visual" aria-hidden="true"><span class="glyph">AI</span></div>
+          <div class="project-info">
+            <div class="project-meta"><span>PROJECT / 002</span><span>AI experiment</span></div>
+            <h3>MEGAN KAWIIS AI</h3>
+            <p>An evolving AI project exploring conversational interfaces, voice interaction, and a custom digital assistant.</p>
+            <a class="project-link" href="https://megan-kawiis-ai.onrender.com" target="_blank" rel="noopener noreferrer">OPEN THE AI LAB <span>↗</span></a>
           </div>
+        </article>
 
-          <div class="metrics">
-            <div class="metric">
-              <strong>01 / VISION</strong>
-              <span>Ideas without borders</span>
-            </div>
-            <div class="metric">
-              <strong>02 / BUILD</strong>
-              <span>Code into experience</span>
-            </div>
-            <div class="metric">
-              <strong>03 / CREATE</strong>
-              <span>Worlds of our own</span>
-            </div>
+        <article class="project game reveal">
+          <div class="project-visual" aria-hidden="true"><span class="glyph">⌁</span></div>
+          <div class="project-info">
+            <div class="project-meta"><span>PROJECT / 003</span><span>Browser game</span></div>
+            <h3>KAWIIS CITY RUN</h3>
+            <p>A fast-moving city-running game concept focused on mobile controls, obstacles, movement, and an evolving urban world.</p>
+            <a class="project-link" href="https://metrinewesakania-beep.github.io/Kawii-chase-by-megan/" target="_blank" rel="noopener noreferrer">PLAY THE GAME <span>↗</span></a>
           </div>
-        </div>
+        </article>
+
+        <article class="project dawn reveal">
+          <div class="project-visual" aria-hidden="true"><span class="glyph">✦</span></div>
+          <div class="project-info">
+            <div class="project-meta"><span>PROJECT / 004</span><span>Story concept</span></div>
+            <h3>LAST DAWN</h3>
+            <p>A cinematic science-fiction story concept about apocalyptic worlds, humanity, survival, and hope.</p>
+            <span class="project-link">CINEMATIC STORY CONCEPT</span>
+          </div>
+        </article>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="projects">
-      <div class="container">
-        <div class="section-heading reveal">
-          <div>
-            <p class="eyebrow">Selected creations / 001—004</p>
-            <h2>THE PROJECT<br><span class="gradient-text">UNIVERSE.</span></h2>
-          </div>
-          <p>
-            Four different directions. One creative mission:
-            turn ambitious ideas into experiences people can explore.
-          </p>
+  <section class="vision" id="vision">
+    <div class="wrap vision-grid">
+      <div class="symbol-panel reveal" aria-hidden="true"></div>
+      <div class="reveal">
+        <p class="eyebrow">The creative directive / MK-01</p>
+        <h2>THE FUTURE IS<br><span class="gradient">NOT A LIMIT.</span></h2>
+        <p>Megan Kawiis Creative Lab is an independent portfolio for web projects, AI experiments, interactive games, and original story universes.</p>
+        <p>The mission: keep learning, experiment boldly, and transform imagination into working creations one step at a time.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="section-top reveal">
+        <div>
+          <p class="eyebrow">Creative capabilities</p>
+          <h2>WHAT WE<br><span class="gradient">BUILD.</span></h2>
         </div>
+        <p>A growing collection of digital skills, experiments, and creative directions.</p>
+      </div>
+      <div class="services">
+        <article class="service reveal"><div class="service-mark">⌘</div><h3>Web Design</h3><p>Responsive websites and custom digital interfaces.</p></article>
+        <article class="service reveal"><div class="service-mark">◎</div><h3>AI Experiments</h3><p>Assistant prototypes, model tests, and voice concepts.</p></article>
+        <article class="service reveal"><div class="service-mark">◇</div><h3>Game Development</h3><p>Browser games, 3D environments, and gameplay systems.</p></article>
+        <article class="service reveal"><div class="service-mark">✧</div><h3>World Building</h3><p>Original characters, fictional universes, and lore.</p></article>
+        <article class="service reveal"><div class="service-mark">▧</div><h3>Visual Direction</h3><p>Futuristic themes, layouts, and digital presentation.</p></article>
+        <article class="service reveal"><div class="service-mark">↗</div><h3>Prototypes</h3><p>Small builds that test ambitious ideas in practice.</p></article>
+      </div>
+    </div>
+  </section>
 
-        <div class="project-grid">
-          <article class="project solaris reveal">
-            <div class="project-top">
-              <span class="project-number">PROJECT / 001</span>
-              <span class="project-tag">Original universe</span>
-            </div>
-            <div class="project-art" aria-hidden="true">
-              <div class="orbit"><span class="orbit-symbol">☼</span></div>
-            </div>
-            <div>
-              <h3>SOLARIS: AERION VERSE</h3>
-              <p>
-                An original superhero universe built around cosmic
-                power, extraordinary speed, and a hero whose destiny
-                reaches beyond the stars.
-              </p>
-              <a class="project-link" href="https://metrinewesakania-beep.github.io/solaris-aerion-verse/" target="_blank" rel="noopener noreferrer">
-                ENTER SOLARIS <span>↗</span
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-panel reveal">
+        <p class="eyebrow">Transmission open / 001</p>
+        <h2>IDEAS FROM<br><span class="gradient">ANOTHER WORLD.</span></h2>
+        <p>Explore the projects and follow the work as new digital experiences take shape.</p>
+        <a class="contact-link" href="https://github.com/metrinewesakania-beep" target="_blank" rel="noopener noreferrer">EXPLORE THE GITHUB PROFILE ↗</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div><strong>MEGAN KAWIIS CREATIVE LAB</strong><br>Dream. Build. Create.</div>
+    <div class="footer-links"><a href="#projects">Projects</a><a href="#home">Back to top ↑</a></div>
+    <span>© <span id="year"></span></span>
+  </div>
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* Lightweight animated star field */
+(() => {
+  const canvas = document.getElementById("stars");
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  let width = 0;
+  let height = 0;
+  let stars = [];
+  let frame = 0;
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const count = Math.min(100, Math.floor(width / 5));
+    stars = Array.from({length: count}, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: Math.random() * 1.4 + .3,
+      speed: Math.random() * .18 + .035,
+      alpha: Math.random() * .65 + .2
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    for (const s of stars) {
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(190,220,255,${s.alpha})`;
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fill();
+      s.y -= s.speed;
+      if (s.y < 0) {
+        s.y = height;
+        s.x = Math.random() * width;
+      }
+    }
+    frame = requestAnimationFrame(draw);
+  }
+
+  resize();
+  draw();
+  window.addEventListener("resize", resize, {passive:true});
+})();
+
+/* Reveal content when it enters the screen */
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.08});
+
+  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+} else {
+  document.querySelectorAll(".reveal").forEach(el => el.classList.add("visible"));
+}
+</script>
+</body>
+</html>
