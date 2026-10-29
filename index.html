@@ -1,656 +1,316 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="stylesheet" href="style.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#070610">
-<meta name="description" content="Megan Kawiis Creative Lab — futuristic websites, AI experiments, games, and original story universes.">
-<title>MEGAN KAWIIS — CREATIVE LAB</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-:root{
-  --bg:#070610;
-  --panel:#100e20;
-  --white:#f7f4ff;
-  --muted:#aaa6c4;
-  --cyan:#63f6ff;
-  --purple:#a78bfa;
-  --pink:#ff60dd;
-  --line:rgba(174,151,255,.24);
-  --max:1220px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:75px}
-body{
-  background:var(--bg);
-  color:var(--white);
-  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
-  line-height:1.65;
-  overflow-x:hidden;
-}
-a{color:inherit;text-decoration:none}
-button{font:inherit}
-::selection{background:var(--cyan);color:#080714}
-.wrap{width:min(var(--max),calc(100% - 40px));margin:auto}
+  <meta name="theme-color" content="#070610">
+  <meta name="description" content="Megan Kawiis Creative Lab — futuristic websites, AI experiments, immersive games, and original worlds.">
 
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:-2;
-  background:
-    radial-gradient(ellipse at 10% 10%,#48208035,transparent 40%),
-    radial-gradient(ellipse at 90% 35%,#005b8230,transparent 38%),
-    #070610;
-}
-#stars{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  opacity:.6;
-}
-.topline{
-  height:3px;
-  background:linear-gradient(90deg,transparent,var(--pink),var(--cyan),var(--purple),transparent);
-  box-shadow:0 0 18px #9c6cff;
-}
+  <title>Megan Kawiis Creative Lab | Beyond Ordinary</title>
 
-/* NAVIGATION */
-header{
-  position:sticky;
-  top:0;
-  z-index:50;
-  background:#070610df;
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--line);
-}
-nav{
-  min-height:72px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-size:.78rem;
-  line-height:1.35;
-  letter-spacing:.12em;
-  font-weight:900;
-}
-.brand-mark{
-  display:grid;
-  place-items:center;
-  width:39px;
-  height:39px;
-  border:1px solid var(--cyan);
-  color:var(--cyan);
-  transform:rotate(45deg);
-  box-shadow:0 0 20px #63f6ff18;
-}
-.brand-mark span{transform:rotate(-45deg)}
-.nav-links{display:flex;gap:25px;color:var(--muted);font-size:.85rem}
-.nav-links a:hover{color:var(--cyan)}
+  <!-- Connect the separate CSS file -->
+  <link rel="stylesheet" href="style.css">
 
-/* HERO */
-.hero{
-  min-height:650px;
-  position:relative;
-  display:flex;
-  align-items:center;
-  overflow:hidden;
-  border-bottom:1px solid var(--line);
-  isolation:isolate;
-}
-.hero-art{
-  position:absolute;
-  inset:0;
-  z-index:-2;
-  background:
-    linear-gradient(90deg,#070610f5 0%,#070610d9 43%,#07061040 100%),
-    url("assets/creative-lab-hero.svg") center/cover no-repeat;
-  opacity:.95;
-}
-.hero:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  background:linear-gradient(0deg,var(--bg),transparent 18%,transparent 85%,var(--bg));
-}
-.hero-content{padding:90px 0;max-width:800px}
-.eyebrow{
-  color:var(--cyan);
-  text-transform:uppercase;
-  letter-spacing:.2em;
-  font-size:.72rem;
-  font-weight:850;
-}
-.status{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  border:1px solid var(--line);
-  background:#100e20b8;
-  padding:7px 12px;
-  font-size:.68rem;
-  letter-spacing:.1em;
-  margin-bottom:28px;
-}
-.status-dot{
-  width:7px;height:7px;border-radius:50%;
-  background:var(--cyan);
-  box-shadow:0 0 12px var(--cyan);
-  animation:pulse 2s infinite;
-}
-h1{
-  font-size:clamp(3.4rem,10vw,8rem);
-  line-height:.91;
-  letter-spacing:-.08em;
-  font-weight:950;
-  margin:22px 0 26px;
-}
-.gradient{
-  background:linear-gradient(100deg,#fff,var(--cyan) 40%,#b7a0ff 70%,var(--pink));
-  color:transparent;
-  -webkit-background-clip:text;
-  background-clip:text;
-}
-.hero-copy{max-width:570px;color:#d0cce3;font-size:1.05rem}
-.hero-foot{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  margin-top:32px;
-  color:var(--muted);
-  font-size:.76rem;
-  letter-spacing:.12em;
-}
-.hero-foot:before{
-  content:"";
-  width:44px;height:1px;background:var(--cyan);
-  box-shadow:0 0 12px var(--cyan);
-}
-
-/* PROJECTS */
-section{padding:90px 0}
-.section-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  gap:24px;
-  margin-bottom:35px;
-}
-.section-top h2{
-  margin-top:12px;
-  font-size:clamp(2.4rem,6vw,4.5rem);
-  line-height:1;
-  letter-spacing:-.065em;
-}
-.section-top p{max-width:350px;color:var(--muted);font-size:.9rem}
-.project-list{display:grid;gap:22px}
-.project{
-  --accent:var(--cyan);
-  position:relative;
-  min-height:300px;
-  display:grid;
-  grid-template-columns:250px minmax(0,1fr);
-  align-items:center;
-  gap:32px;
-  padding:30px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  background:linear-gradient(110deg,#111023,#0b0a17 70%);
-  isolation:isolate;
-  transition:border-color .25s,transform .25s;
-}
-.project:before{
-  content:"";
-  position:absolute;
-  width:350px;height:350px;
-  left:-100px;top:-130px;
-  border-radius:50%;
-  background:var(--accent);
-  filter:blur(100px);
-  opacity:.09;
-  z-index:-1;
-  pointer-events:none;
-}
-.project:hover{
-  border-color:var(--accent);
-  transform:translateY(-3px);
-}
-.project.solaris{--accent:#ffbf66}
-.project.ai{--accent:#c69aff}
-.project.game{--accent:#63f6ff}
-.project.dawn{--accent:#ff72b6}
-.project-visual{
-  min-height:210px;
-  display:grid;
-  place-items:center;
-  position:relative;
-  overflow:hidden;
-  border:1px solid color-mix(in srgb,var(--accent) 38%,transparent);
-  background:
-    radial-gradient(circle at center,color-mix(in srgb,var(--accent) 22%,transparent),transparent 63%),
-    #080713;
-}
-.project-visual:before{
-  content:"";
-  position:absolute;
-  width:170px;height:170px;
-  border:1px solid var(--accent);
-  border-radius:50%;
-  opacity:.6;
-  box-shadow:0 0 35px color-mix(in srgb,var(--accent) 20%,transparent),
-    inset 0 0 30px color-mix(in srgb,var(--accent) 12%,transparent);
-  animation:orbit 14s linear infinite;
-}
-.project-visual:after{
-  content:"";
-  position:absolute;
-  width:210px;height:70px;
-  border:1px solid var(--accent);
-  border-radius:50%;
-  transform:rotate(-30deg);
-  opacity:.65;
-}
-.glyph{
-  position:relative;
-  z-index:1;
-  color:var(--accent);
-  font-size:4rem;
-  font-weight:900;
-  text-shadow:0 0 24px var(--accent);
-}
-.project-info{min-width:0}
-.project-meta{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:12px;
-  color:var(--muted);
-  font-size:.7rem;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-  margin-bottom:12px;
-}
-.project-meta span:last-child{color:var(--accent)}
-.project h3{
-  font-size:clamp(1.65rem,4vw,3rem);
-  line-height:1.1;
-  letter-spacing:-.055em;
-  margin-bottom:14px;
-}
-.project p{max-width:650px;color:var(--muted);font-size:.94rem}
-.project-link{
-  display:inline-flex;
-  gap:12px;
-  align-items:center;
-  margin-top:22px;
-  color:var(--accent);
-  font-size:.82rem;
-  font-weight:900;
-  letter-spacing:.09em;
-}
-.project-link span{transition:transform .2s}
-.project-link:hover span{transform:translate(5px,-3px)}
-
-/* VISION */
-.vision{
-  border-block:1px solid var(--line);
-  background:linear-gradient(120deg,#160e32a8,#0717227a);
-}
-.vision-grid{
-  display:grid;
-  grid-template-columns:.8fr 1.2fr;
-  gap:55px;
-  align-items:center;
-}
-.symbol-panel{
-  min-height:330px;
-  display:grid;
-  place-items:center;
-  position:relative;
-  overflow:hidden;
-  border:1px solid var(--line);
-  background:radial-gradient(circle,#6728a83c,transparent 60%);
-}
-.symbol-panel:before{
-  content:"";
-  width:175px;height:175px;
-  border:2px solid var(--cyan);
-  transform:rotate(45deg);
-  box-shadow:0 0 45px #63f6ff1e,inset 0 0 40px #63f6ff15;
-}
-.symbol-panel:after{
-  content:"MK";
-  position:absolute;
-  font-size:3.5rem;
-  font-weight:950;
-  text-shadow:0 0 25px var(--cyan);
-}
-.vision h2{
-  font-size:clamp(2.4rem,6vw,4.5rem);
-  line-height:1;
-  letter-spacing:-.065em;
-  margin:15px 0 22px;
-}
-.vision p{color:var(--muted);margin-bottom:16px;max-width:610px}
-
-/* SERVICES */
-.services{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:14px;
-}
-.service{
-  padding:23px;
-  border:1px solid var(--line);
-  background:#100e20a6;
-  transition:border-color .2s,transform .2s;
-}
-.service:hover{border-color:var(--pink);transform:translateY(-3px)}
-.service-mark{font-size:1.35rem;color:var(--cyan);margin-bottom:15px}
-.service h3{font-size:1rem;margin-bottom:7px}
-.service p{font-size:.82rem;color:var(--muted)}
-
-/* CONTACT AND FOOTER */
-.contact-panel{
-  padding:clamp(28px,6vw,65px);
-  border:1px solid var(--line);
-  background:
-    radial-gradient(ellipse at 100% 0%,#7123a53d,transparent 50%),
-    #100d20;
-}
-.contact-panel h2{
-  max-width:800px;
-  font-size:clamp(2.6rem,7vw,5.6rem);
-  line-height:.98;
-  letter-spacing:-.07em;
-  margin:15px 0 22px;
-}
-.contact-panel p{max-width:550px;color:var(--muted)}
-.contact-link{
-  display:inline-block;
-  margin-top:25px;
-  padding-bottom:5px;
-  color:var(--cyan);
-  border-bottom:1px solid var(--cyan);
-  font-weight:800;
-}
-footer{border-top:1px solid var(--line);padding:27px 0}
-.footer-inner{
-  display:flex;justify-content:space-between;
-  align-items:center;gap:20px;
-  color:var(--muted);font-size:.78rem;
-}
-.footer-inner strong{color:var(--white);letter-spacing:.06em}
-.footer-links{display:flex;gap:18px}
-.footer-links a:hover{color:var(--cyan)}
-
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .65s,transform .65s}
-.reveal.visible{opacity:1;transform:translateY(0)}
-@keyframes pulse{50%{opacity:.45}}
-@keyframes orbit{to{transform:rotate(360deg)}}
-
-@media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}
-  .reveal{opacity:1;transform:none}
-}
-@media(max-width:760px){
-  .wrap{width:calc(100% - 30px)}
-  .hero{min-height:600px}
-  .hero-art{
-    background:
-      linear-gradient(90deg,#070610ed,#070610a8),
-      url("assets/creative-lab-hero.svg") 60% center/cover no-repeat;
-  }
-  .project{
-    grid-template-columns:1fr;
-    gap:20px;
-    padding:20px;
-  }
-  .project-visual{min-height:180px}
-  .vision-grid{grid-template-columns:1fr;gap:30px}
-  .symbol-panel{min-height:230px}
-  .services{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .section-top{align-items:start;flex-direction:column}
-}
-@media(max-width:450px){
-  .brand{font-size:.65rem;gap:9px}
-  .brand-mark{width:32px;height:32px}
-  .nav-links{gap:13px;font-size:.75rem}
-  .nav-links a:nth-child(2){display:none}
-  .hero-content{padding:75px 0}
-  h1{font-size:clamp(3.2rem,15vw,5rem)}
-  .hero-copy{font-size:.95rem}
-  section{padding:68px 0}
-  .project h3{font-size:1.7rem}
-  .services{gap:9px}
-  .service{padding:15px}
-  .footer-inner{align-items:flex-start;flex-direction:column}
-}
-</style>
+  <!-- Futuristic typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
-<canvas id="stars" aria-hidden="true"></canvas>
-<div class="topline"></div>
+  <!-- Animated background controlled by script.js -->
+  <canvas id="stars" aria-hidden="true"></canvas>
 
-<header>
-  <nav class="wrap" aria-label="Main navigation">
-    <a class="brand" href="#home">
-      <span class="brand-mark"><span>MK</span></span>
-      <span>MEGAN KAWIIS<br>CREATIVE LAB</span>
-    </a>
-    <div class="nav-links">
-      <a href="#projects">Projects</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
-</header>
+  <div class="site-shell">
 
-<main>
-  <section class="hero" id="home">
-    <div class="hero-art" aria-hidden="true"></div>
-    <div class="wrap">
-      <div class="hero-content">
-        <div class="status"><span class="status-dot"></span> INDEPENDENT DIGITAL CREATION STUDIO</div>
-        <p class="eyebrow">Beyond ordinary. Beyond expected.</p>
-        <h1>ENTER THE<br><span class="gradient">UNKNOWN.</span></h1>
-        <p class="hero-copy">
-          Futuristic technology. Original universes. Interactive experiences.
-          A creative lab for ideas that deserve to become real.
+    <!-- NAVIGATION -->
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="Megan Kawiis Creative Lab home">
+        <span class="brand-symbol">MK</span>
+        <span class="brand-name">KAWIIS<span> LAB</span></span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#projects">Projects</a>
+        <a href="#services">What I Create</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero" id="home">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">
+            <span class="status-dot"></span>
+            INDEPENDENT DIGITAL CREATIVE LAB
+          </p>
+
+          <h1>
+            THE FUTURE
+            <span>IS BUILT.</span>
+          </h1>
+
+          <p class="hero-description">
+            I build digital experiences, experiment with AI, create games,
+            and develop original worlds. Every project is a step beyond ordinary.
+          </p>
+
+          <a class="text-link" href="#projects">
+            EXPLORE THE PROJECTS <span aria-hidden="true">↘</span>
+          </a>
+
+          <div class="hero-stats">
+            <div>
+              <strong>01</strong>
+              <span>CREATIVE MIND</span>
+            </div>
+            <div>
+              <strong>∞</strong>
+              <span>NEW POSSIBILITIES</span>
+            </div>
+            <div>
+              <strong>MK</strong>
+              <span>ORIGINAL PROJECTS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-art reveal" aria-label="Abstract futuristic energy portal">
+          <div class="hero-orbit orbit-one"></div>
+          <div class="hero-orbit orbit-two"></div>
+          <div class="hero-orbit orbit-three"></div>
+
+          <div class="hero-core">
+            <span class="core-top">CREATIVE</span>
+            <strong>MK</strong>
+            <span class="core-bottom">UNLIMITED VISION</span>
+          </div>
+
+          <span class="floating-label label-top">SYSTEM ONLINE</span>
+          <span class="floating-label label-bottom">BUILD / CREATE / EVOLVE</span>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="projects-section" id="projects">
+        <div class="section-heading reveal">
+          <div>
+            <p class="eyebrow">THE WORK</p>
+            <h2>PROJECTS<span class="accent">_</span></h2>
+          </div>
+          <p class="section-note">
+            Original ideas. Digital experiments. Worlds in progress.
+          </p>
+        </div>
+
+        <div class="projects-grid">
+
+          <!-- SOLARIS -->
+          <article class="project project-solaris reveal">
+            <div class="project-visual solaris-visual">
+              <div class="visual-topline">
+                <span>UNIVERSE / 001</span>
+                <span>HERO WORLD</span>
+              </div>
+
+              <div class="sun-halo"></div>
+              <div class="solar-rings"></div>
+
+              <div class="project-monogram solaris-monogram">S</div>
+
+              <span class="visual-caption">POWER BEYOND LIMITS</span>
+            </div>
+
+            <div class="project-info">
+              <div class="project-category">ORIGINAL SUPERHERO UNIVERSE</div>
+              <h3>SOLARIS <span>/ AERION VERSE</span></h3>
+              <p>
+                Enter a universe of extraordinary speed, solar power,
+                legendary heroes, and cosmic-scale adventures.
+              </p>
+              <a
+                class="project-link"
+                href="https://metrinewesakania-beep.github.io/solaris-aerion-verse/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ENTER THE UNIVERSE <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- MEGAN KAWIIS AI -->
+          <article class="project project-ai reveal">
+            <div class="project-visual ai-visual">
+              <div class="visual-topline">
+                <span>INTELLIGENCE / 002</span>
+                <span>AI LAB</span>
+              </div>
+
+              <div class="ai-orb">
+                <div class="ai-orb-inner">AI</div>
+              </div>
+
+              <div class="ai-circuit circuit-one"></div>
+              <div class="ai-circuit circuit-two"></div>
+
+              <span class="visual-caption">LEARN • EXPLORE • EVOLVE</span>
+            </div>
+
+            <div class="project-info">
+              <div class="project-category">ARTIFICIAL INTELLIGENCE EXPERIMENT</div>
+              <h3>MEGAN KAWIIS AI</h3>
+              <p>
+                An evolving AI project exploring conversational experiences,
+                creative tools, and the possibilities of personal AI.
+              </p>
+              <a
+                class="project-link"
+                href="https://megan-kawiis-ai.onrender.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                OPEN AI LAB <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- KAWIIS CITY RUN -->
+          <article class="project project-game reveal">
+            <div class="project-visual game-visual">
+              <div class="visual-topline">
+                <span>GAMING / 003</span>
+                <span>3D RUNNER</span>
+              </div>
+
+              <div class="city-sun"></div>
+
+              <div class="city-silhouette city-back">
+                <i></i><i></i><i></i><i></i><i></i>
+              </div>
+
+              <div class="city-silhouette city-front">
+                <i></i><i></i><i></i><i></i><i></i>
+              </div>
+
+              <div class="city-road">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+
+              <div class="game-title-mark">RUN</div>
+              <span class="visual-caption">OWN THE STREETS</span>
+            </div>
+
+            <div class="project-info">
+              <div class="project-category">3D ACTION GAME</div>
+              <h3>KAWIIS CITY RUN</h3>
+              <p>
+                A city-running game concept with movement, challenges,
+                rivals, and an expanding urban world.
+              </p>
+              <a
+                class="project-link"
+                href="https://metrinewesakania-beep.github.io/Kawii-chase-by-megan/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                PLAY THE GAME <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- LAST DAWN -->
+          <article class="project project-dawn reveal">
+            <div class="project-visual dawn-visual">
+              <div class="visual-topline">
+                <span>STORY WORLDS / 004</span>
+                <span>CINEMATIC CONCEPT</span>
+              </div>
+
+              <div class="dawn-sun"></div>
+              <div class="dawn-horizon"></div>
+
+              <div class="dawn-scanline"></div>
+
+              <div class="dawn-title-mark">LAST<br>DAWN</div>
+              <span class="visual-caption">WHEN THE WORLD CHANGES</span>
+            </div>
+
+            <div class="project-info">
+              <div class="project-category">SCI-FI STORY CONCEPT</div>
+              <h3>LAST DAWN</h3>
+              <p>
+                An original cinematic concept exploring apocalyptic events,
+                survival, mystery, and humanity's final turning point.
+              </p>
+              <span class="project-status">STORY WORLD IN DEVELOPMENT</span>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+      <section class="services-section" id="services">
+        <div class="section-heading reveal">
+          <div>
+            <p class="eyebrow">THE CREATIVE ENGINE</p>
+            <h2>WHAT I <span class="accent">CREATE</span></h2>
+          </div>
+        </div>
+
+        <div class="services-grid">
+          <article class="service reveal">
+            <span class="service-number">01</span>
+            <h3>Web Experiences</h3>
+            <p>Responsive websites, creative portfolios, and digital experiences.</p>
+          </article>
+
+          <article class="service reveal">
+            <span class="service-number">02</span>
+            <h3>AI Experiments</h3>
+            <p>AI prototypes, interactive ideas, and experiments with intelligent tools.</p>
+          </article>
+
+          <article class="service reveal">
+            <span class="service-number">03</span>
+            <h3>Games & Worlds</h3>
+            <p>Game concepts, immersive environments, original heroes, and stories.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="contact-section reveal" id="contact">
+        <p class="eyebrow">THE NEXT PROJECT STARTS HERE</p>
+        <h2>HAVE AN IDEA?<br><span>LET'S BUILD IT.</span></h2>
+
+        <p class="contact-description">
+          Interested in a website or a creative digital project?
+          Get in touch to discuss the idea.
         </p>
-        <div class="hero-foot">SCROLL TO EXPLORE THE PROJECTS</div>
-      </div>
-    </div>
-  </section>
 
-  <section id="projects">
-    <div class="wrap">
-      <div class="section-top reveal">
-        <div>
-          <p class="eyebrow">Selected creations / 001—004</p>
-          <h2>THE PROJECT<br><span class="gradient">UNIVERSE.</span></h2>
-        </div>
-        <p>Four worlds. Different missions. One creator building beyond the ordinary.</p>
-      </div>
+        <a class="contact-link" href="mailto:metrinewesakania@gmail.com">
+          CONTACT THE CREATIVE LAB <span aria-hidden="true">↗</span>
+        </a>
+      </section>
+    </main>
 
-      <div class="project-list">
-        <article class="project solaris reveal">
-          <div class="project-visual" aria-hidden="true"><span class="glyph">☼</span></div>
-          <div class="project-info">
-            <div class="project-meta"><span>PROJECT / 001</span><span>Original universe</span></div>
-            <h3>SOLARIS: AERION VERSE</h3>
-            <p>A cosmic superhero universe featuring Solaris, extraordinary speed, immense power, and a destiny written among the stars.</p>
-            <a class="project-link" href="https://metrinewesakania-beep.github.io/solaris-aerion-verse/" target="_blank" rel="noopener noreferrer">ENTER SOLARIS <span>↗</span></a>
-          </div>
-        </article>
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <a class="footer-brand" href="#home">MEGAN KAWIIS <span>CREATIVE LAB</span></a>
+      <p>INDEPENDENT IDEAS. ORIGINAL WORLDS. DIGITAL FUTURES.</p>
+      <p>© <span id="year">2026</span> Megan Kawiis Creative Lab</p>
+    </footer>
 
-        <article class="project ai reveal">
-          <div class="project-visual" aria-hidden="true"><span class="glyph">AI</span></div>
-          <div class="project-info">
-            <div class="project-meta"><span>PROJECT / 002</span><span>AI experiment</span></div>
-            <h3>MEGAN KAWIIS AI</h3>
-            <p>An evolving AI project exploring conversational interfaces, voice interaction, and a custom digital assistant.</p>
-            <a class="project-link" href="https://megan-kawiis-ai.onrender.com" target="_blank" rel="noopener noreferrer">OPEN THE AI LAB <span>↗</span></a>
-          </div>
-        </article>
-
-        <article class="project game reveal">
-          <div class="project-visual" aria-hidden="true"><span class="glyph">⌁</span></div>
-          <div class="project-info">
-            <div class="project-meta"><span>PROJECT / 003</span><span>Browser game</span></div>
-            <h3>KAWIIS CITY RUN</h3>
-            <p>A fast-moving city-running game concept focused on mobile controls, obstacles, movement, and an evolving urban world.</p>
-            <a class="project-link" href="https://metrinewesakania-beep.github.io/Kawii-chase-by-megan/" target="_blank" rel="noopener noreferrer">PLAY THE GAME <span>↗</span></a>
-          </div>
-        </article>
-
-        <article class="project dawn reveal">
-          <div class="project-visual" aria-hidden="true"><span class="glyph">✦</span></div>
-          <div class="project-info">
-            <div class="project-meta"><span>PROJECT / 004</span><span>Story concept</span></div>
-            <h3>LAST DAWN</h3>
-            <p>A cinematic science-fiction story concept about apocalyptic worlds, humanity, survival, and hope.</p>
-            <span class="project-link">CINEMATIC STORY CONCEPT</span>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="vision" id="vision">
-    <div class="wrap vision-grid">
-      <div class="symbol-panel reveal" aria-hidden="true"></div>
-      <div class="reveal">
-        <p class="eyebrow">The creative directive / MK-01</p>
-        <h2>THE FUTURE IS<br><span class="gradient">NOT A LIMIT.</span></h2>
-        <p>Megan Kawiis Creative Lab is an independent portfolio for web projects, AI experiments, interactive games, and original story universes.</p>
-        <p>The mission: keep learning, experiment boldly, and transform imagination into working creations one step at a time.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="services">
-    <div class="wrap">
-      <div class="section-top reveal">
-        <div>
-          <p class="eyebrow">Creative capabilities</p>
-          <h2>WHAT WE<br><span class="gradient">BUILD.</span></h2>
-        </div>
-        <p>A growing collection of digital skills, experiments, and creative directions.</p>
-      </div>
-      <div class="services">
-        <article class="service reveal"><div class="service-mark">⌘</div><h3>Web Design</h3><p>Responsive websites and custom digital interfaces.</p></article>
-        <article class="service reveal"><div class="service-mark">◎</div><h3>AI Experiments</h3><p>Assistant prototypes, model tests, and voice concepts.</p></article>
-        <article class="service reveal"><div class="service-mark">◇</div><h3>Game Development</h3><p>Browser games, 3D environments, and gameplay systems.</p></article>
-        <article class="service reveal"><div class="service-mark">✧</div><h3>World Building</h3><p>Original characters, fictional universes, and lore.</p></article>
-        <article class="service reveal"><div class="service-mark">▧</div><h3>Visual Direction</h3><p>Futuristic themes, layouts, and digital presentation.</p></article>
-        <article class="service reveal"><div class="service-mark">↗</div><h3>Prototypes</h3><p>Small builds that test ambitious ideas in practice.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="wrap">
-      <div class="contact-panel reveal">
-        <p class="eyebrow">Transmission open / 001</p>
-        <h2>IDEAS FROM<br><span class="gradient">ANOTHER WORLD.</span></h2>
-        <p>Explore the projects and follow the work as new digital experiences take shape.</p>
-        <a class="contact-link" href="https://github.com/metrinewesakania-beep" target="_blank" rel="noopener noreferrer">EXPLORE THE GITHUB PROFILE ↗</a>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap footer-inner">
-    <div><strong>MEGAN KAWIIS CREATIVE LAB</strong><br>Dream. Build. Create.</div>
-    <div class="footer-links"><a href="#projects">Projects</a><a href="#home">Back to top ↑</a></div>
-    <span>© <span id="year"></span></span>
   </div>
-</footer>
 
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
-
-/* Lightweight animated star field */
-(() => {
-  const canvas = document.getElementById("stars");
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-
-  let width = 0;
-  let height = 0;
-  let stars = [];
-  let frame = 0;
-
-  function resize() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = width + "px";
-    canvas.style.height = height + "px";
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    const count = Math.min(100, Math.floor(width / 5));
-    stars = Array.from({length: count}, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      r: Math.random() * 1.4 + .3,
-      speed: Math.random() * .18 + .035,
-      alpha: Math.random() * .65 + .2
-    }));
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-    for (const s of stars) {
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(190,220,255,${s.alpha})`;
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fill();
-      s.y -= s.speed;
-      if (s.y < 0) {
-        s.y = height;
-        s.x = Math.random() * width;
-      }
-    }
-    frame = requestAnimationFrame(draw);
-  }
-
-  resize();
-  draw();
-  window.addEventListener("resize", resize, {passive:true});
-})();
-
-/* Reveal content when it enters the screen */
-if ("IntersectionObserver" in window) {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {threshold:.08});
-
-  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-} else {
-  document.querySelectorAll(".reveal").forEach(el => el.classList.add("visible"));
-}
-</script>
+  <!-- Connect the separate JavaScript file -->
+  <script src="script.js" defer></script>
 </body>
 </html>
