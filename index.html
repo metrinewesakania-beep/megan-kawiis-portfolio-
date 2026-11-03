@@ -146,7 +146,7 @@ footer{flex-direction:column}}
     <p>AN IMMERSIVE CREATIVE EXPERIENCE</p>
     <h1>MEGAN KAWIIS</h1>
     <p>THE WORLD BEHIND THE WORK</p>
-    <button class="btn" id="enter">✦ OPEN THE CURTAINS ✦</button>
+    <button class="btn" id="enter" type="button" onclick="var i=document.getElementById('intro');i.classList.add('open');document.getElementById('site').classList.add('ready');document.body.classList.remove('locked');setTimeout(function(){i.classList.add('gone')},2000)">✦ OPEN THE CURTAINS ✦</button>
   </div>
 </div>
 
@@ -261,9 +261,4 @@ $("year").textContent = new Date().getFullYear();
 var bar = $("progress"), hint = $("hint"), hero = document.querySelector(".hero-c");
 var bgs = Array.prototype.slice.call(document.querySelectorAll(".wbg"));
 var scenes = Array.prototype.slice.call(document.querySelectorAll(".scene"));
-var world = $("world"), ticking = false;
-function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
-function update() {
-  ticking = false;
-  var max = document.documentElement.scrollHeight - innerHeight;
-  bar.style.width = (max > 0 ? scrollY / max * 100 : 0) + "%";
+var world = $("world"), ticking = fa
