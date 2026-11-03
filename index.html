@@ -238,27 +238,6 @@ footer{flex-direction:column}}
 
 <button class="top" id="top" type="button" aria-label="Back to top">↑</button>
 
-<script>
-"use strict";
-var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-var $ = function (id) { return document.getElementById(id); };
-var intro = $("intro"), site = $("site");
-
-/* Curtains */
-function store(k, v) { try { if (v) sessionStorage.setItem(k, v); else return sessionStorage.getItem(k); } catch (e) {} }
-function openWorld(skip) {
-  intro.classList.add("open");
-  site.classList.add("ready");
-  document.body.classList.remove("locked");
-  setTimeout(function () { intro.classList.add("gone"); if (!skip) $("home").focus({ preventScroll: true }); }, skip || reduced ? 30 : 2000);
-  store("mkEntered", "yes");
-}
-$("enter").addEventListener("click", function () { openWorld(false); });
-if (store("mkEntered") === "yes") { intro.classList.add("open", "gone"); site.classList.add("ready"); document.body.classList.remove("locked"); }
-$("year").textContent = new Date().getFullYear();
-
-/* Scroll: progress bar, parallax, palace scenes */
-var bar = $("progress"), hint = $("hint"), hero = document.querySelector(".hero-c");
-var bgs = Array.prototype.slice.call(document.querySelectorAll(".wbg"));
-var scenes = Array.prototype.slice.call(document.querySelectorAll(".scene"));
-var world = $("world"), ticking = fa
+<script src="script.js" defer></script>
+</body>
+</html>
